@@ -29,5 +29,12 @@ public class ProdutoController {
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
+	//Rota para cadastrar um novo produto
+	@PostMapping
+	public ResponseEntity<Produto> criar(@RequestBody Produto produto){
+		Produto produtoSalvo = produtoRepository.save(produto);
+		return ResponseEntity.status(201).body(produtoSalvo);
+	}
+	
 
 }

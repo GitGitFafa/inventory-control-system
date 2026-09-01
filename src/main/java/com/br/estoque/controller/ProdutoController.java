@@ -36,5 +36,21 @@ public class ProdutoController {
 		return ResponseEntity.status(201).body(produtoSalvo);
 	}
 	
+	//Rota para atualizar um produto existente
+	@PutMapping("/{id}")
+	public ResponseEntity<Produto> atualizar (@PathVariable Long id, @RequestBody Produto produtoAtualizado){
+		return produtoRepository.findById(id)
+				.map(produtoExistente -> {
+					produtoExistente.setNome(produtoAtualizado.getNome());
+					produtoExistente.setDescricao(produtoAtualizado.getDescricao());
+					produtoExistente.setPreco(produtoAtualizado.getPreco());
+					produtoExistente.setQuantidade(produtoAtualizado.getQuantidade());
+					Produto produtoSalvo = produtoRepository.save(produtoExistente);
+					
+					return ResponseEntity.ok(produtoSalvo);
+						})
+				.orElse(ResponseEntity.notFound().build());
+	}
+	
 
 }
